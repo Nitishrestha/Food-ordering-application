@@ -70,5 +70,22 @@ public class OrderDetailController {
     public List<MockFood> getCurrentDateOrderLog(@PathVariable int userId) {
         return orderDetailService.getCurrentDateFoodLog(userId);
     }
+/*
+    @GetMapping(value = "/order/{userId}/current/month")
+    public ResponseEntity<GenericResponse> getCurrentMonthOrderLog(@PathVariable int userId, @PathVariable int firstResult, @PathVariable int maxResult) {
+        PageModel pageModel = new PageModel(firstResult, maxResult);
+        List<MockFood> foodList = orderDetailService.getPaginatedCurrentMonthFoodLog(userId);
+        if (foodList == null && foodList.size() == 0) {
+            throw new DataNotFoundException("Record not found !!");
+        }
 
+        GenericResponse genericResponse = new GenericResponse();
+        genericResponse.setPageModel(pageModel);
+        genericResponse.setResponseData(foodList);
+        long count = orderDetailService.countOrderDetail();
+        pageModel.setCount(count);
+        return new ResponseEntity<>(genericResponse, HttpStatus.OK);
+        return orderDetailService.getPaginatedCurrentMonthFoodLog(userId);
+    }*/
 }
+

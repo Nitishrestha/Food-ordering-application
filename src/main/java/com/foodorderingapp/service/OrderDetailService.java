@@ -17,4 +17,5 @@ public interface OrderDetailService {
     List<MockFood>getPaginatedOrderLogToUser(PageModel pageModel, int userId);
     List<MockFood> getPaginatedOrderLogToAdmin(PageModel pageModel);
     List<MockFood> getCurrentDateFoodLog(int userId);
+    List<MockFood> getPaginatedCurrentMonthFoodLog(int userId);
 }

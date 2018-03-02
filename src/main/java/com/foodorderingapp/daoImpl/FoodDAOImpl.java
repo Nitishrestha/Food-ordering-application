@@ -106,11 +106,10 @@ public class FoodDAOImpl implements FoodDAO {
     public List<Food> getPaginatedFood(PageModel pageModel, int id) {
        Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("FROM Food where restaurant.id = :id",Food.class)
-                        .setParameter("id",id);
-
-        query.setFirstResult(pageModel.getFirstResult()* pageModel.getMaxResult());
-        List<Food> foodList = query.getResultList();
-        return foodList;
+                        .setParameter("id",id)
+                        .setFirstResult(pageModel.getFirstResult()* pageModel.getMaxResult())
+                        .setMaxResults(pageModel.getMaxResult());
+        return query.getResultList();
     }
 
     @Override

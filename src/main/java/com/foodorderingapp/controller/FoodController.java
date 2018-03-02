@@ -56,6 +56,6 @@ public class FoodController {
     @PostMapping
     public ResponseEntity<List<Food>> addFoods(@RequestBody List<Food> foodList){
         List<Food> foodList1=foodService.addFoodsToRestaurant(foodList);
-        return new ResponseEntity<List<Food>>(foodList1,HttpStatus.OK);
+        return new ResponseEntity<>(foodList1,HttpStatus.OK);
     }
 }

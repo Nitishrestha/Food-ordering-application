@@ -15,5 +15,5 @@ public interface OrderDetailDAO {
      List<OrderDetail> getPaginatedOrderLogToAdmin(PageModel pageModel);
      Long countOrderDetail();
      List<OrderDetail> getCurrentDateFoodLog(int userId);
-
+     List<OrderDetail> getPaginatedCurrentMonthFoodLog(int userId);
 }

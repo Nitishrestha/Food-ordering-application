@@ -85,7 +85,6 @@ public class RestaurantController {
         if (restaurant == null && restaurant.size() == 0) {
             throw new DataNotFoundException("Record not found !!");
         }
-
         GenericResponse genericResponse = new GenericResponse();
         genericResponse.setResponseData(restaurant);
         genericResponse.setPageModel(pageModel);
@@ -107,22 +106,25 @@ public class RestaurantController {
         GenericResponse genericResponse = new GenericResponse();
         genericResponse.setResponseData(restaurant);
         genericResponse.setPageModel(pageModel);
-        long count = restaurantService.countRestaurant();
+        long count = restaurantService.countActiveRestaurant();
         pageModel.setCount(count);
         return new ResponseEntity<>(genericResponse, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}/page/{firstResult}/{maxResult}")
+    @GetMapping(value = "/{id}/foods/{firstResult}/{maxResult}")
     public ResponseEntity<GenericResponse> getPaginatedFood(@PathVariable int id, @PathVariable int firstResult,@PathVariable int maxResult) {
         PageModel pageModel = new PageModel(firstResult,maxResult);
         List<Food> foodList = foodService.getPaginatedFood(pageModel,id);
         if (foodList == null && foodList.size() == 0) {
             throw new DataNotFoundException("Record not found !!");
         }
-        GenericResponse genericResponse = new GenericResponse(pageModel,id);
+        GenericResponse genericResponse = new GenericResponse(pageModel,foodList);
         long count = foodService.countFood(id);
         pageModel.setCount(count);
         return new ResponseEntity<>(genericResponse, HttpStatus.OK);
     }
+
+
+
 
 }

@@ -84,5 +84,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         List<OrderDetail> orderDetailList = orderDetailDAO.getCurrentDateFoodLog(userId);
         return OrderDetailUtil.getMockFoodList(orderDetailList);
     }
+
+    @Override
+    public List<MockFood> getPaginatedCurrentMonthFoodLog(int userId) {
+        List<OrderDetail> orderDetailList = orderDetailDAO.getPaginatedCurrentMonthFoodLog(userId);
+        return OrderDetailUtil.getMockFoodList(orderDetailList);
+    }
 }
 

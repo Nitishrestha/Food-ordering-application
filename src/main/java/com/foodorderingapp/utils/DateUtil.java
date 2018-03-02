@@ -35,7 +35,7 @@ public class DateUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getTomorrowDate());
-        System.out.println(getTodayDate());
+        System.out.println("Today's Start :"+getTodayDate());
+        System.out.println("Today's End :"+getTomorrowDate());
     }
 }

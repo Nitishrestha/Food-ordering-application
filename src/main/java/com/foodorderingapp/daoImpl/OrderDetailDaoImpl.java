@@ -93,8 +93,6 @@ public class OrderDetailDaoImpl implements OrderDetailDAO {
 
     @Override
     public List<OrderDetail> getCurrentDateFoodLog(int userId) {
-        Date date = new Date();
-        System.out.println(date);
         String queryString = "FROM OrderDetail od where (od.orders.date between :startDate and :endDate) and od.orders.user.userId = :userId";
         Query query = sessionFactory
                 .getCurrentSession()
@@ -105,4 +103,15 @@ public class OrderDetailDaoImpl implements OrderDetailDAO {
         return query.getResultList();
     }
 
+    @Override
+    public List<OrderDetail> getPaginatedCurrentMonthFoodLog(int userId) {
+        String queryString = "FROM OrderDetail od where MONTH(od.orders.date) = MONTH(:date) and od.orders.user.userId = :userId";
+        Query query = sessionFactory
+                .getCurrentSession()
+                .createQuery(queryString, OrderDetail.class)
+                .setParameter("userId", userId)
+                .setParameter("date", new Date());
+        List<OrderDetail> orderDetailList = query.getResultList();
+        return orderDetailList;
+    }
 }
