@@ -25,7 +25,16 @@ public class Orders {
     private int orderId;
     @Column(name="confirm")
     private Boolean confirm;
+    @Column(name="ordered_date")
+    private Date date;
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Boolean getConfirm() {
         return confirm;
