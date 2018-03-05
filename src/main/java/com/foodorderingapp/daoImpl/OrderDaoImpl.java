@@ -14,6 +14,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,16 +33,20 @@ public class OrderDaoImpl implements OrderDAO{
     }
 
    public List<OrderDetail> getOrderDetailByUserForToday(int userId){
-       Calendar cal = Calendar.getInstance();
-       cal.setTime(new Date());
+       DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+       LocalDate localDate = LocalDate.now();
+       System.out.println(dtf.format(localDate));
 
-      Query qry= sessionFactory.getCurrentSession()
-                .createQuery("  from OrderDetail od where odx   x   .orders.user.userId=:userId",OrderDetail.class)
-              .setParameter("userId",userId);
-
+       Query qry= sessionFactory.getCurrentSession()
+               .createQuery("  from OrderDetail od where od.orders.user.userId=:userId " +
+                       "and DAY(od.orders.orderedDate)=:current_date",OrderDetail.class)
+               .setParameter("userId",userId)
+               .setParameter("current_date",localDate);
        List<OrderDetail> orderDetailList=qry.getResultList();
-      return  orderDetailList;
-    }
+       return  orderDetailList;
+
+   }
+
     public Orders add(Orders orders) {
         try {
             sessionFactory.getCurrentSession().save(orders);
@@ -82,14 +88,14 @@ public class OrderDaoImpl implements OrderDAO{
     public List<OrderListMapperDto> getOrderLogForAdminForAMonth(PageModel pageModel) {
         Query qry=sessionFactory
                 .getCurrentSession()
-                .createNativeQuery("SELECT tbl_users.first_name,tbl_users.last_name,\n" +
-                        "tbl_order_detail.food_name,tbl_order_detail.food_price,tbl_order_detail.restaurant_name," +
-                        " tbl_orders.ordered_date from(( tbl_order_detail \n" +
+                .createNativeQuery("SELECT tbl_users.first_name,tbl_users.middle_name,tbl_users.last_name,tbl_order_detail.food_name,\n" +
+                        "tbl_order_detail.quantity,tbl_order_detail.food_price,tbl_order_detail.restaurant_name,\n" +
+                        "tbl_orders.ordered_date from(( tbl_order_detail\n" +
                         "INNER JOIN tbl_orders ON tbl_orders.order_id=tbl_order_detail.order_id)\n" +
-                        "INNER JOIN tbl_users ON tbl_orders.user_id=tbl_users.user_id)" +
-                        "WHERE YEAR(CURRENT_TIMESTAMP) = YEAR(ordered_date) " +
-                        "AND MONTH(CURRENT_TIMESTAMP) = MONTH(ordered_date) \n" +
-                        " AND tbl_users.user_role=\"user\" ORDER BY tbl_orders.ordered_date DESC","OrderMapping");
+                        "INNER JOIN tbl_users ON tbl_orders.user_id=tbl_users.user_id)\n" +
+                        "WHERE  YEAR(CURRENT_TIMESTAMP) = YEAR(ordered_date) \n" +
+                        "AND MONTH(CURRENT_TIMESTAMP) = MONTH(ordered_date)\n" +
+                        "AND tbl_users.user_role=\"user\" ORDER BY tbl_orders.ordered_date DESC","OrderMapping");
         qry.setFirstResult(pageModel.getFirstResult()*pageModel.getMaxResult());
         qry.setMaxResults(pageModel.getMaxResult());
         List<OrderListMapperDto> orderListMapperDtoList=qry.getResultList();
@@ -101,13 +107,14 @@ public class OrderDaoImpl implements OrderDAO{
     public List<OrderListMapperDto> getOrderLogForAdminForToday() {
         Query qry = sessionFactory
                 .getCurrentSession()
-                .createNativeQuery("SELECT tbl_users.first_name,tbl_users.last_name,\n" +
-                        "tbl_order_detail.food_name,tbl_order_detail.food_price,tbl_order_detail.restaurant_name," +
-                        " tbl_orders.ordered_date from(( tbl_order_detail \n" +
+                .createNativeQuery("SELECT tbl_users.first_name,tbl_users.middle_name,tbl_users.last_name,\n" +
+                        "tbl_order_detail.food_name,tbl_order_detail.quantity,tbl_order_detail.food_price," +
+                        "tbl_order_detail.restaurant_name,\n" +
+                        "tbl_orders.ordered_date from(( tbl_order_detail\n" +
                         "INNER JOIN tbl_orders ON tbl_orders.order_id=tbl_order_detail.order_id)\n" +
-                        "INNER JOIN tbl_users ON tbl_orders.user_id=tbl_users.user_id)" +
-                        "WHERE CAST(tbl_orders.ordered_date AS DATE)=CURRENT_DATE\n" +
-                        " AND tbl_users.user_role=\"user\" ORDER BY tbl_orders.ordered_date DESC","OrderMapping");
+                        "INNER JOIN tbl_users ON tbl_orders.user_id=tbl_users.user_id)\n" +
+                        " WHERE CAST(tbl_orders.ordered_date AS DATE)=CURRENT_DATE\n" +
+                        "AND tbl_users.user_role=\"user\" ORDER BY tbl_orders.ordered_date DESC","OrderMapping");
         List<OrderListMapperDto> orderListMapperDtoList=qry.getResultList();
         return orderListMapperDtoList;
     }

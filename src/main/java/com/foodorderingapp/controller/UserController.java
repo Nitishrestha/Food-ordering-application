@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import static com.foodorderingapp.commons.WebUrlConstant.User.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(WebUrlConstant.User.USER_API)
+@RequestMapping(USER)
 public class UserController {
 
     private final UserService userService;
@@ -38,13 +39,13 @@ public class UserController {
         return new ResponseEntity(userDtoResponseList, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/verify")
+    @PostMapping(VERIFY_USER)
     public ResponseEntity<LoginDto> verifyUser(@RequestBody @Valid LoginDto loginDto) {
         LoginDto loginDto1 = userService.verifyUser(loginDto.getUserPassword(), loginDto.getEmail());
         return new ResponseEntity(loginDto1, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{userId}")
+    @GetMapping(GET_USER_BY_ID)
     public ResponseEntity<User> getUser(@PathVariable("userId") int userId) {
         User user = userService.getUser(userId);
         return new ResponseEntity(user, HttpStatus.OK);

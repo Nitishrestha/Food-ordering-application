@@ -2,7 +2,6 @@ package com.foodorderingapp.controller;
 
 import com.foodorderingapp.commons.GenericResponse;
 import com.foodorderingapp.commons.PageModel;
-import com.foodorderingapp.commons.WebUrlConstant;
 import com.foodorderingapp.exception.DataNotFoundException;
 import com.foodorderingapp.model.Food;
 import com.foodorderingapp.model.Restaurant;
@@ -12,12 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import static com.foodorderingapp.commons.WebUrlConstant.Restaurant.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(WebUrlConstant.Restaurant.RESTAURANT_API)
+@RequestMapping(RESTAURANT)
 public class RestaurantController {
 
     private static RestaurantService restaurantService;
@@ -41,25 +41,25 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurantList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}/foods")
+    @GetMapping(GET_FOOD_BY_RESTAURANT)
     public ResponseEntity<List<Food>> getFoodsByRestaurant(@PathVariable int id) {
         List<Food> foodList = foodService.getFoodByRestaurantId(id);
         return new ResponseEntity<>(foodList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}/activate")
+    @GetMapping(ACTIVATE_RESTAURANT)
     public int activateRestaurant(@PathVariable int id) {
         restaurantService.activate(id);
         return id;
     }
 
-    @GetMapping(value = "/{id}/deactivate")
+    @GetMapping(DEACTIVATE_RESTAURANT)
     public int deactivateRestaurant(@PathVariable int id) {
         restaurantService.deactivate(id);
         return id;
     }
 
-    @GetMapping(value = "admin/paginate/{firstResult}/{maxResult}")
+    @GetMapping(GET_PAGINATED_RESTAURANT_TO_ADMIN)
     public ResponseEntity<GenericResponse> getPaginatedRestaurantToAdmin(@PathVariable int firstResult, @PathVariable int maxResult) {
         PageModel pageModel = new PageModel();
         pageModel.setFirstResult(firstResult);
@@ -77,7 +77,7 @@ public class RestaurantController {
         return new ResponseEntity<>(genericResponse, HttpStatus.OK);
     }
 
-    @GetMapping(value = "user/paginate/{firstResult}/{maxResult}")
+    @GetMapping(GET_PAGINATED_RESTAURANT_TO_USER)
     public ResponseEntity<GenericResponse> getPaginatedRestaurantToUser(@PathVariable int firstResult, @PathVariable int maxResult) {
         PageModel pageModel = new PageModel();
         pageModel.setFirstResult(firstResult);
@@ -95,7 +95,7 @@ public class RestaurantController {
         return new ResponseEntity<>(genericResponse, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}/foods/{firstResult}/{maxResult}")
+    @GetMapping(GET_PAGINATED_FOOD)
     public ResponseEntity<GenericResponse> getPaginatedFood(@PathVariable int id, @PathVariable int firstResult, @PathVariable int maxResult) {
         PageModel pageModel = new PageModel(firstResult, maxResult);
         List<Food> foodList = foodService.getPaginatedFood(pageModel, id);
@@ -109,22 +109,20 @@ public class RestaurantController {
     }
 
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(GET_RESTAURANT_BY_ID)
     public Restaurant getRestaurantById(@PathVariable int id) {
         return restaurantService.getRestaurantById(id);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(DELETE_RESTAURANT_BY_ID)
     public int deleteRestaurant(@PathVariable int id) {
         restaurantService.deleteRestaurant(getRestaurantById(id));
         return id;
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(UPDATE_RESTAURANT_BY_ID)
     public Restaurant updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int id) {
         restaurantService.updateRestaurant(restaurant, id);
         return restaurant;
     }
-
-
 }

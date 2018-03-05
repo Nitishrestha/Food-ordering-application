@@ -4,20 +4,24 @@ import java.util.Date;
 
 public class OrderListMapperDto {
 
-    private  String firstName;
-    private  String lastName;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String foodName;
     private String restaurantName;
     private int foodPrice;
+    private int quantity;
     private Date orderedDate;
 
-    public OrderListMapperDto(String firstName, String lastName, String foodName,
-                              String restaurantName, int foodPrice, Date orderedDate) {
+    public OrderListMapperDto(String firstName, String middleName, String lastName, String foodName,
+                              String restaurantName, int foodPrice, int quantity, Date orderedDate) {
         this.firstName = firstName;
+        this.middleName = middleName;
         this.lastName = lastName;
         this.foodName = foodName;
         this.restaurantName = restaurantName;
         this.foodPrice = foodPrice;
+        this.quantity = quantity;
         this.orderedDate = orderedDate;
     }
 
@@ -33,6 +37,14 @@ public class OrderListMapperDto {
         this.firstName = firstName;
     }
 
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -40,6 +52,15 @@ public class OrderListMapperDto {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
 
     public String getFoodName() {
         return foodName;

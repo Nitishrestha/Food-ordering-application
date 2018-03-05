@@ -3,26 +3,45 @@ package com.foodorderingapp.commons;
 public class WebUrlConstant {
 
     public interface Order{
-        String ORDER_API="/order";
+        String ORDER="/order";
+        String TODAY_ORDER_TO_ADMIN="/admin/today";
+        String MONTHLY_ORDER_TO_ADMIN="/admin/month/{firstResult}/{maxResult}";
+        String TODAY_ORDER_TO_USER="/user/{userId}";
+        String MONTHLY_ORDER_TO_USER="/userList/{userId}/{firstResult}/{maxResult}";
+        String CONFIRM="/confirm/{orderId}";
+        String WATCHED="/watched/{orderId}";
     }
 
     public interface User{
-        String USER_API="/user";
+        String USER="/user";
+        String VERIFY_USER="/verify";
+        String GET_USER_BY_ID="/{userId}";
 
     }
 
     public interface OrderDetail{
-        String ORDER_DETAIL_API="/orderDetail";
+        String ORDER_DETAIL="/orderDetail";
+        String GET_ORDER_DETAIL_BY_USER_ID="/{userId}";
 
     }
 
     public interface Food{
-        String FOOD_API="/foods";
-
+        String FOOD="/foods";
+        String GET_FOOD_BY_ID="/{id}";
+        String DELETE_FOOD_BY_ID="/{id}";
+        String UPDATE_FOOD_BY_ID="/{id}";
     }
 
     public interface Restaurant{
-        String RESTAURANT_API="/restaurants";
-
+        String RESTAURANT="/restaurants";
+        String GET_FOOD_BY_RESTAURANT="/{id}/foods";
+        String ACTIVATE_RESTAURANT="/{id}/activate";
+        String DEACTIVATE_RESTAURANT="/{id}/deactivate";
+        String GET_PAGINATED_RESTAURANT_TO_ADMIN="admin/paginate/{firstResult}/{maxResult}";
+        String GET_PAGINATED_RESTAURANT_TO_USER="user/paginate/{firstResult}/{maxResult}";
+        String GET_PAGINATED_FOOD="/{id}/foods/{firstResult}/{maxResult}";
+        String GET_RESTAURANT_BY_ID="/{id}";
+        String DELETE_RESTAURANT_BY_ID="/{id}";
+        String UPDATE_RESTAURANT_BY_ID="/{id}";
     }
 }

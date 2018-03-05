@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
+import static com.foodorderingapp.commons.WebUrlConstant.Food.*;
+import static com.foodorderingapp.commons.FoodOrderingMessageConstant.*;
 /**
  * Created by TOPSHI KREATS on 11/29/2017.
  */
 @RestController
-@RequestMapping(WebUrlConstant.Food.FOOD_API)
+@RequestMapping(FOOD)
 public class FoodController {
 
     private final FoodService foodService;
@@ -37,21 +37,21 @@ public class FoodController {
         return new ResponseEntity<>(foodList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(GET_FOOD_BY_ID)
     public ResponseEntity<Food> getFoodBydId(@PathVariable int id) {
         Food food = foodService.getFoodById(id);
         return new ResponseEntity<>(food, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(DELETE_FOOD_BY_ID)
     public ResponseEntity<String> deleteFood(@PathVariable int id) {
         foodService.deleteFood(foodService.getFoodById(id));
-        return new ResponseEntity<>(FoodOrderingMessageConstant.DELETE_FOOD_MESSAGE, HttpStatus.OK);
+        return new ResponseEntity<>(DELETE_FOOD_MESSAGE, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(UPDATE_FOOD_BY_ID)
     public ResponseEntity<String> updateFood(@RequestBody Food food, @PathVariable int id) {
         foodService.updateFood(food, id);
-        return new ResponseEntity<>("Food updated successfully!", HttpStatus.OK);
+        return new ResponseEntity<>(UPDATE_FOOD_MESSAGE, HttpStatus.OK);
     }
 }

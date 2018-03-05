@@ -17,10 +17,12 @@ import java.util.List;
                 {@ConstructorResult(targetClass = OrderListMapperDto.class,
                         columns = {
                                 @ColumnResult(name="first_name", type=String.class),
+                                @ColumnResult(name="middle_name", type=String.class),
                                 @ColumnResult(name="last_name", type=String.class),
                                 @ColumnResult(name="food_name", type=String.class),
                                 @ColumnResult(name="restaurant_name", type=String.class),
                                 @ColumnResult(name="food_price", type=Integer.class),
+                                @ColumnResult(name="quantity", type=Integer.class),
                                 @ColumnResult(name="ordered_date",type=Date.class)
                         })})
 public class Orders {
@@ -32,10 +34,22 @@ public class Orders {
     private Boolean confirm=false;
     @Column(name="watched")
     private Boolean watched=false;
+    @Column(name="ordered_date")
+    @Temporal(TemporalType.DATE)
+    private Date orderedDate;
 
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+
+    public Date getOrderedDate() {
+        return orderedDate;
+    }
+
+    public void setOrderedDate(Date orderedDate) {
+        this.orderedDate = orderedDate;
+    }
 
     public int getOrderId() {
         return orderId;

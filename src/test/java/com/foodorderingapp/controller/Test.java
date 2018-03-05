@@ -37,7 +37,7 @@ public class Test {
         c.set(Calendar.HOUR, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MONTH,Calendar.DAY_OF_MONTH);
+        c.set(Calendar.MONTH,Calendar.MONTH);
         return c.getTime();
     }
 
@@ -64,5 +64,6 @@ public class Test {
             System.out.println("Today's Start :" + getTodayDate());
             System.out.println("Today's End :" + getTomorrowDate());
             System.out.println("Current Month :" + getCurrentMonth());
+            System.out.println(Calendar.getInstance().get(Calendar.MONTH)+1);
         }
 }
