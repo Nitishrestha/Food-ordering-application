@@ -1,10 +1,8 @@
 package com.foodorderingapp.serviceImpl;
 
-import com.foodorderingapp.commons.PageModel;
 import com.foodorderingapp.dao.OrderDAO;
 import com.foodorderingapp.dto.*;
 import com.foodorderingapp.exception.DataNotFoundException;
-import com.foodorderingapp.exception.UserConflictException;
 import com.foodorderingapp.model.Food;
 import com.foodorderingapp.model.OrderDetail;
 import com.foodorderingapp.model.Orders;
@@ -13,6 +11,7 @@ import com.foodorderingapp.service.FoodService;
 import com.foodorderingapp.service.OrderDetailService;
 import com.foodorderingapp.service.OrdersService;
 import com.foodorderingapp.service.UserService;
+import com.foodorderingapp.utils.FoodResUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,83 +29,191 @@ public class OrdersServiceImpl implements OrdersService {
     private final OrderDetailService orderDetailService;
 
     @Autowired
-    public OrdersServiceImpl(UserService userService,FoodService foodService,OrderDAO orderDAO,
-                             OrderDetailService orderDetailService){
-        this.userService=userService;
-        this.foodService=foodService;
-        this.orderDAO=orderDAO;
-        this.orderDetailService=orderDetailService;
+    public OrdersServiceImpl(UserService userService, FoodService foodService, OrderDAO orderDAO,
+                             OrderDetailService orderDetailService) {
+        this.userService = userService;
+        this.foodService = foodService;
+        this.orderDAO = orderDAO;
+        this.orderDetailService = orderDetailService;
     }
 
     double balance;
 
-    public List<OrderDetail> getOrderDetailByUserForToday(int userId){
-       return orderDAO.getOrderDetailByUserForToday(userId);
-    }
     public BillDto add(OrderDto orderDto) {
-
-        BillDto bal=new BillDto();
-        List<Food> foodList=new ArrayList<>();
-
-        User user=userService.getUser(orderDto.getUserId());
-        if(user == null){
-            throw new DataNotFoundException("user not found.");
-        }
-        Orders orders = new Orders();
-        orders.setUser(user);
-        orderDAO.add(orders);
-
-        for(FoodQuantity foodQuantity : orderDto.getFoodList()) {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrders(orders);
-            orderDetail.setQuantity(foodQuantity.getQuantity());
-            orderDetail.setFoodName(foodQuantity.getFoodName());
-            orderDetail.setRestaurantName(foodQuantity.getRestaurantName());
-            orderDetail.setFoodPrice(foodQuantity.getFoodPrice());
-            Food food=foodService.getFoodByResName(foodQuantity.getRestaurantName(),foodQuantity.getFoodName());
-            if(food==null){
-                throw new DataNotFoundException("cannot find food");
+        BillDto bal = new BillDto();
+        List<Food> foodList = new ArrayList<>();
+        User user = userService.getUser(orderDto.getUserId());
+        Orders order = orderDAO.getOrderByUserWithConfirm(orderDto.getUserId());
+        if (order != null) {
+            for (FoodQuantity foodQuantity : orderDto.getFoodList()) {
+                OrderDetail orderDetail1 = orderDetailService
+                        .getOrderDetailByUserId(orderDto.getUserId(), foodQuantity.getFoodName(), foodQuantity.getRestaurantName());
+                if (orderDetail1 != null) {
+                    int quantity = foodQuantity.getQuantity() + orderDetail1.getQuantity();
+                    orderDetail1.setQuantity(quantity);
+                    orderDetailService.updateOrderDetail(orderDetail1);
+                } else {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrders(order);
+                    orderDetail.setQuantity(foodQuantity.getQuantity());
+                    orderDetail.setFoodName(foodQuantity.getFoodName());
+                    orderDetail.setRestaurantName(foodQuantity.getRestaurantName());
+                    orderDetail.setFoodPrice(foodQuantity.getFoodPrice());
+                    orderDetailService.add(orderDetail);
+                }
+                Food food = foodService.getFoodByResName(foodQuantity.getRestaurantName(), foodQuantity.getFoodName());
+                foodList.add(food);
+                double amount = foodQuantity.getQuantity() * foodQuantity.getFoodPrice();
+                balance = user.getBalance() - amount;
+                user.setBalance(balance);
+                userService.update(user);
+                bal.setBalance(balance);
+                bal.setFoodList(foodList);
             }
-            else if(foodQuantity.getFoodPrice()!=food.getPrice()){
-                throw new UserConflictException("price not found");
+        } else {
+            Orders orders1 = new Orders();
+            orders1.setUser(user);
+            orderDAO.add(orders1);
+            for (FoodQuantity foodQuantity : orderDto.getFoodList()) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setOrders(orders1);
+                orderDetail.setQuantity(foodQuantity.getQuantity());
+                orderDetail.setFoodName(foodQuantity.getFoodName());
+                orderDetail.setRestaurantName(foodQuantity.getRestaurantName());
+                orderDetail.setFoodPrice(foodQuantity.getFoodPrice());
+                Food food = foodService.getFoodByResName(foodQuantity.getRestaurantName(), foodQuantity.getFoodName());
+                if (food == null) {
+                    throw new DataNotFoundException("cannot find food");
+                }
+                foodList.add(food);
+                double amount = foodQuantity.getQuantity() * foodQuantity.getFoodPrice();
+                balance = user.getBalance() - amount;
+                user.setBalance(balance);
+                userService.update(user);
+                bal.setBalance(balance);
+                bal.setFoodList(foodList);
+                orderDetailService.add(orderDetail);
             }
+        }
+        return bal;
+    }
 
-           else if(foodQuantity.getQuantity()<=0){
-                throw new UserConflictException(" quantity should be greater than 0");
+    public List<OrderListDto> getOrderForAdminForMonth() {
+
+        try {
+            List<OrderListMapperDto> orderListMapperDtoList = orderDAO.getOrderForAdminForMonth();
+            List<OrderListDto> orderListDtoList = new ArrayList<>();
+            for (OrderListMapperDto orderListMapperDto : orderListMapperDtoList) {
+                OrderListDto orderListDto = new OrderListDto();
+                List<FoodRes> foodResList = new ArrayList();
+                orderListDto.setOrderId(orderListMapperDto.getOrderId());
+                orderListDto.setUserId(orderListMapperDto.getUserId());
+                orderListDto.setFirstName(orderListMapperDto.getFirstName());
+                orderListDto.setMiddleName(orderListMapperDto.getMiddleName());
+                orderListDto.setLastName(orderListMapperDto.getLastName());
+                orderListDto.setOrderedDate(orderListMapperDto.getOrderedDate());
+                List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrderId(orderListMapperDto.getOrderId());
+                for (OrderDetail orderDetail : orderDetailList) {
+                    foodResList.add(FoodResUtil.addFoodRes(orderDetail));
+                    orderListDto.setFoodResList(foodResList);
+                }
+                orderListDtoList.add(orderListDto);
             }
-            foodList.add(food);
-            double amount=foodQuantity.getQuantity()*foodQuantity.getFoodPrice();
-            balance=user.getBalance()-amount;
-            user.setBalance(balance);
-            userService.update(user);
-            bal.setBalance(balance);
-            bal.setFoodList(foodList);
-            orderDetailService.add(orderDetail);
+            return orderListDtoList;
+        } catch (Exception e) {
+            throw new DataNotFoundException("Cannot find order list" + e.getStackTrace());
         }
-        return  bal;
-        }
+    }
 
-    public List<UserLogMapperDto> getUsersByUserForAMonth(PageModel pageModel,int userId) {
-        List<UserLogMapperDto> userLogMapperDtos = userService.getByUserForAMonth(pageModel,userId);
-        return  userLogMapperDtos;
+    public List<OrderListDto> getOrderLogForAdminForToday() {
+
+        try {
+            List<OrderListMapperDto> orderListMapperDtoList = orderDAO.getOrderLogForAdminForToday();
+            List<OrderListDto> orderListDtoList = new ArrayList<>();
+            for (OrderListMapperDto orderListMapperDto : orderListMapperDtoList) {
+                OrderListDto orderListDto = new OrderListDto();
+                List<FoodRes> foodResList = new ArrayList();
+                orderListDto.setOrderId(orderListMapperDto.getOrderId());
+                orderListDto.setUserId(orderListMapperDto.getUserId());
+                orderListDto.setFirstName(orderListMapperDto.getFirstName());
+                orderListDto.setMiddleName(orderListMapperDto.getMiddleName());
+                orderListDto.setLastName(orderListMapperDto.getLastName());
+                orderListDto.setOrderedDate(orderListMapperDto.getOrderedDate());
+                List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrderId(orderListMapperDto.getOrderId());
+                for (OrderDetail orderDetail : orderDetailList) {
+                    foodResList.add(FoodResUtil.addFoodRes(orderDetail));
+                    orderListDto.setFoodResList(foodResList);
+                }
+                orderListDtoList.add(orderListDto);
+            }
+            return orderListDtoList;
+        } catch (Exception e) {
+            throw new DataNotFoundException("Cannot find order list" + e.getStackTrace());
+        }
     }
 
 
-    public List<UserLogMapperDto> getUsersByUserForToday(int userId) {
-       return  userService.getByUserForToday(userId);
+    public List<UserListDto> getUsersByUserForAMonth(int userId) {
+        try {
+            List<UserListMapperDto> userListMapperDtos = userService.getUsersByUserForAMonth(userId);
+            List<UserListDto> userListDtoList = new ArrayList<>();
+
+            for (UserListMapperDto userListMapperDto : userListMapperDtos) {
+                UserListDto userListDto = new UserListDto();
+                List<FoodRes> foodResList = new ArrayList<>();
+                userListDto.setUserId(userListMapperDto.getUserId());
+                userListDto.setOrderId(userListMapperDto.getOrderId());
+                userListDto.setOrderedDate(userListMapperDto.getOrderedDate());
+                List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrderId(userListMapperDto.getOrderId());
+
+                for (OrderDetail orderDetail : orderDetailList) {
+                    foodResList.add(FoodResUtil.addFoodRes(orderDetail));
+                    userListDto.setFoodResList(foodResList);
+                }
+                userListDtoList.add(userListDto);
+            }
+            return userListDtoList;
+        }
+        catch (Exception e) {
+            throw new DataNotFoundException("Cannot find order list"+e.getMessage());
+        }
     }
 
-    public List<OrderListMapperDto> getOrderLogForAdminForAMonth(PageModel pageModel) {
+    public List<UserListDto> getUsersByUserForToday(int userId) {
+        try {
+            List<UserListMapperDto> userListMapperDtos = userService.getUsersByUserForAMonth(userId);
+            List<UserListDto> userListDtoList = new ArrayList<>();
+
+            for (UserListMapperDto userListMapperDto : userListMapperDtos) {
+                UserListDto userListDto = new UserListDto();
+                List<FoodRes> foodResList = new ArrayList<>();
+                userListDto.setUserId(userListMapperDto.getUserId());
+                userListDto.setOrderId(userListMapperDto.getOrderId());
+                userListDto.setOrderedDate(userListMapperDto.getOrderedDate());
+                List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrderId(userListMapperDto.getOrderId());
+
+                for (OrderDetail orderDetail : orderDetailList) {
+                    foodResList.add(FoodResUtil.addFoodRes(orderDetail));
+                    userListDto.setFoodResList(foodResList);
+                }
+                userListDtoList.add(userListDto);
+            }
+            return userListDtoList;
+        }
+        catch (Exception e) {
+            throw new DataNotFoundException("Cannot find order list"+e.getMessage());
+        }
+    }
+
+
+   /* public List<OrderListMapperDto> getOrderLogForAdminForAMonth(PageModel pageModel) {
         return orderDAO.getOrderLogForAdminForAMonth(pageModel);
-        }
+    }*/
 
-    public List<OrderListMapperDto>getOrderLogForAdminForToday() {
-        return  orderDAO.getOrderLogForAdminForToday();
-    }
 
     public Orders updateConfirm(int orderId) {
-        Orders orders1=orderDAO.getOrder(orderId);
-        if(orders1==null){
+        Orders orders1 = orderDAO.getOrder(orderId);
+        if (orders1 == null) {
             throw new DataNotFoundException("cannot find order.");
         }
         orders1.setConfirm(true);
@@ -115,8 +222,8 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     public Orders updateWatched(int orderId) {
-        Orders orders1=orderDAO.getOrder(orderId);
-        if(orders1==null){
+        Orders orders1 = orderDAO.getOrder(orderId);
+        if (orders1 == null) {
             throw new DataNotFoundException("cannot find order.");
         }
         orders1.setWatched(true);
@@ -124,10 +231,8 @@ public class OrdersServiceImpl implements OrdersService {
         return orders1;
     }
 
-
-    public Long countOrder(){
-        return  orderDAO.countOrder();
+    public Long countOrder() {
+        return orderDAO.countOrder();
     }
-
 }
 

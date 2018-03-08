@@ -13,6 +13,7 @@ public interface UserService {
     LoginDto verifyUser(String userPassword,String email);
     User getUser(int userId);
     User update(User user);
-    List<UserLogMapperDto> getByUserForAMonth(PageModel pageModel,int userId);
+    List<UserListMapperDto> getUsersByUserForAMonth(int userId);
+//    List<UserLogMapperDto> getByUserForAMonth(PageModel pageModel,int userId);
     List<UserLogMapperDto> getByUserForToday(int userId);
 }

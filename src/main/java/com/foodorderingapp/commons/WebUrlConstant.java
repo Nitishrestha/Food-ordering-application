@@ -5,9 +5,9 @@ public class WebUrlConstant {
     public interface Order{
         String ORDER="/order";
         String TODAY_ORDER_TO_ADMIN="/admin/today";
-        String MONTHLY_ORDER_TO_ADMIN="/admin/month/{firstResult}/{maxResult}";
+        String MONTHLY_ORDER_TO_ADMIN="/admin/month";
         String TODAY_ORDER_TO_USER="/user/{userId}";
-        String MONTHLY_ORDER_TO_USER="/userList/{userId}/{firstResult}/{maxResult}";
+        String MONTHLY_ORDER_TO_USER="/userList/{userId}";
         String CONFIRM="/confirm/{orderId}";
         String WATCHED="/watched/{orderId}";
     }

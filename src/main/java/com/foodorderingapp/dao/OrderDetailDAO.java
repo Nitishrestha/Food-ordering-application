@@ -11,4 +11,7 @@ public interface OrderDetailDAO {
      List<OrderDetailDto> getOrderDetail();
      List<OrderDetail> getOrderDetailByOrderId(int orderId);
      List<OrderDetail> getOrderDetailByUserId(int userId );
+     Boolean updateOrderDetail(OrderDetail orderDetail);
+     OrderDetail getOrderDetailByUserId(int userId,String foodName,String restaurantName);
+
 }

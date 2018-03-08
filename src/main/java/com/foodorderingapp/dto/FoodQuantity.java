@@ -66,16 +66,12 @@ public class FoodQuantity {
 
         FoodQuantity that = (FoodQuantity) o;
 
-        if (Double.compare(that.foodPrice, foodPrice) != 0) return false;
-        if (quantity != that.quantity) return false;
-        if (foodName != null ? !foodName.equals(that.foodName) : that.foodName != null) return false;
-        return restaurantName != null ? restaurantName.equals(that.restaurantName) : that.restaurantName == null;
+        return Double.compare(that.foodPrice, foodPrice) == 0;
     }
 
     @Override
     public int hashCode() {
-        int result = foodName != null ? foodName.hashCode() : 0;
-        result = 31 * result + (restaurantName != null ? restaurantName.hashCode() : 0);
-        return result;
+        long temp = Double.doubleToLongBits(foodPrice);
+        return (int) (temp ^ (temp >>> 32));
     }
 }

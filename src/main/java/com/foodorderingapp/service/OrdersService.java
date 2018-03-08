@@ -1,20 +1,19 @@
 package com.foodorderingapp.service;
 
-import com.foodorderingapp.commons.PageModel;
-import com.foodorderingapp.dto.*;
-import com.foodorderingapp.model.OrderDetail;
+import com.foodorderingapp.dto.BillDto;
+import com.foodorderingapp.dto.OrderDto;
+import com.foodorderingapp.dto.OrderListDto;
+import com.foodorderingapp.dto.UserListDto;
 import com.foodorderingapp.model.Orders;
 
 import java.util.List;
 
 public interface OrdersService {
     BillDto add(OrderDto orderDto);
-    List<OrderListMapperDto> getOrderLogForAdminForAMonth(PageModel pageModel);
-    List<OrderListMapperDto> getOrderLogForAdminForToday();
-    List<UserLogMapperDto> getUsersByUserForAMonth(PageModel pageModel,int userId);
-    List<UserLogMapperDto> getUsersByUserForToday(int userId);
     Orders updateConfirm(int orderId);
     Orders updateWatched(int orderId);
-    List<OrderDetail> getOrderDetailByUserForToday(int userId);
-    Long countOrder();
+    List<OrderListDto> getOrderForAdminForMonth();
+    List<OrderListDto> getOrderLogForAdminForToday();
+    List<UserListDto> getUsersByUserForAMonth(int userId);
+    List<UserListDto> getUsersByUserForToday(int userId);
 }

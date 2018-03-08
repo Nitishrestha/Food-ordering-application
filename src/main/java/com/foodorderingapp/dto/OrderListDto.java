@@ -1,8 +1,9 @@
 package com.foodorderingapp.dto;
 
 import java.util.Date;
+import java.util.List;
 
-public class OrderListMapperDto {
+public class OrderListDto {
 
     private int orderId;
     private int userId;
@@ -10,15 +11,22 @@ public class OrderListMapperDto {
     private String middleName;
     private String lastName;
     private Date orderedDate;
+    private List<FoodRes> foodResList;
 
-    public OrderListMapperDto(int orderId, int userId, String firstName,
-                              String middleName, String lastName, Date orderedDate) {
-        this.orderId = orderId;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
         this.userId = userId;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.orderedDate = orderedDate;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public String getFirstName() {
@@ -45,20 +53,12 @@ public class OrderListMapperDto {
         this.lastName = lastName;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public List<FoodRes> getFoodResList() {
+        return foodResList;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setFoodResList(List<FoodRes> foodResList) {
+        this.foodResList = foodResList;
     }
 
     public Date getOrderedDate() {

@@ -16,8 +16,8 @@ import java.util.List;
 public class OrderDetailController {
 
 
-    private final OrderDetailService orderDetailService;
-    private final OrdersService ordersService;
+    private OrderDetailService orderDetailService;
+    private  OrdersService ordersService;
 
     @Autowired
     public OrderDetailController(OrderDetailService orderDetailService,OrdersService ordersService){
@@ -32,10 +32,10 @@ public class OrderDetailController {
         return new ResponseEntity<>(orderDetailDtoList, HttpStatus.OK);
     }
 
-    @GetMapping(GET_ORDER_DETAIL_BY_USER_ID)
+  /*  @GetMapping(GET_ORDER_DETAIL_BY_USER_ID)
     public ResponseEntity<List<OrderDetail>> getOrderDetailByUserId(@PathVariable("userId") int userId)
     {
         List<OrderDetail> orderDetailList=orderDetailService.getOrderDetailByUserId(userId);
         return new ResponseEntity<>(orderDetailList, HttpStatus.OK);
-    }
+    }*/
 }

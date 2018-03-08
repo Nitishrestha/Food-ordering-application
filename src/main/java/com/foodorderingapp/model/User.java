@@ -1,5 +1,6 @@
 package com.foodorderingapp.model;
 
+import com.foodorderingapp.dto.UserListMapperDto;
 import com.foodorderingapp.dto.UserLogMapperDto;
 
 import javax.persistence.*;
@@ -12,12 +13,11 @@ import java.util.Date;
 @SqlResultSetMapping(
         name="UserMapping",
         classes =
-                {@ConstructorResult(targetClass = UserLogMapperDto.class,
+                {@ConstructorResult(targetClass = UserListMapperDto.class,
                         columns = {
-                                @ColumnResult(name="food_name", type=String.class),
-                                @ColumnResult(name="restaurant_name", type=String.class),
-                                @ColumnResult(name="food_price", type=Integer.class),
-                                @ColumnResult(name="ordered_date",type=Date.class),
+                                @ColumnResult(name="order_id", type=Integer.class),
+                                @ColumnResult(name="user_id", type=Integer.class),
+                                @ColumnResult(name="ordered_date",type=Date.class)
                         })})
 
 public class User {

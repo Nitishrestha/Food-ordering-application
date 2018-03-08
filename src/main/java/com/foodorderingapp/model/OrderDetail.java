@@ -42,15 +42,33 @@ public class OrderDetail {
     private Orders orders;
 
 
-    public OrderDetail(String foodName, double foodPrice, String restaurantName, int quantity) {
+    public OrderDetail(String foodName, double foodPrice, String restaurantName, int quantity, Orders orders) {
         this.foodName = foodName;
         this.foodPrice = foodPrice;
         this.restaurantName = restaurantName;
         this.quantity = quantity;
+        this.orders = orders;
     }
+
 
     public OrderDetail(){
 
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
+    }
+
+    public double getFoodPrice() {
+        return foodPrice;
+    }
+
+    public void setFoodPrice(double foodPrice) {
+        this.foodPrice = foodPrice;
     }
 
     public int getOrderDetailId() {
@@ -77,43 +95,11 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public String getFoodName() {
-        return foodName;
-    }
-
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
-    }
-
-    public double getFoodPrice() {
-        return foodPrice;
-    }
-
-    public void setFoodPrice(double foodPrice) {
-        this.foodPrice = foodPrice;
-    }
-
     public String getRestaurantName() {
         return restaurantName;
     }
 
     public void setRestaurantName(String restaurantName) {
         this.restaurantName = restaurantName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OrderDetail that = (OrderDetail) o;
-
-        return Double.compare(that.foodPrice, foodPrice) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        long temp = Double.doubleToLongBits(foodPrice);
-        return (int) (temp ^ (temp >>> 32));
     }
 }

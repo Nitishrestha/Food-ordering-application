@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.crypto.Data;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,20 +52,17 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     }
 
-    public List<OrderDetail> getOrderDetailByUserId(int userId ){
-        return  orderDetailDAO.getOrderDetailByUserId(userId);
+    public OrderDetail getOrderDetailByUserId(int userId,String foodName,String restaurantName ){
+        return  orderDetailDAO.getOrderDetailByUserId(userId,foodName,restaurantName);
 
     }
 
-   /* @Override
-    public List<OrderDetail> getOrderDetailByOrderId(int orderId) {
+    @Override
+    public OrderDetail updateOrderDetail(OrderDetail orderDetail) {
+        orderDetailDAO.updateOrderDetail(orderDetail);
+        return orderDetail;
+    }
 
-        List<OrderDetail> orderDetails = orderDetailDAO.getOrderDetailByOrderId(orderId);
-        if(orderDetails==null || orderDetails.size()==0){
-            throw new DataNotFoundException("cannot find orderDetail.");
-        }else{
-            return orderDetails;
-        }*/
     }
 
 
