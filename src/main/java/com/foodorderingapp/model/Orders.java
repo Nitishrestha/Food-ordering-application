@@ -21,7 +21,8 @@ import java.util.List;
                                 @ColumnResult(name="first_name",type=String.class),
                                 @ColumnResult(name="middle_name",type=String.class),
                                 @ColumnResult(name="last_name",type=String.class),
-                                @ColumnResult(name="ordered_date",type=Date.class)
+                                @ColumnResult(name="ordered_date",type=Date.class),
+                                @ColumnResult(name="confirm",type=Boolean.class)
                         })})
 public class Orders {
     @Id

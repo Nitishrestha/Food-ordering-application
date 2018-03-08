@@ -6,15 +6,25 @@ public class UserListMapperDto {
     private int orderId;
     private int userId;
     private Date orderedDate;
+    private Boolean confirm;
 
     public UserListMapperDto(){
 
     }
 
-    public UserListMapperDto(int orderId, int userId, Date orderedDate) {
+    public UserListMapperDto(int orderId, int userId, Date orderedDate, Boolean confirm) {
         this.orderId = orderId;
         this.userId = userId;
         this.orderedDate = orderedDate;
+        this.confirm = confirm;
+    }
+
+    public Boolean getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(Boolean confirm) {
+        this.confirm = confirm;
     }
 
     public int getUserId() {

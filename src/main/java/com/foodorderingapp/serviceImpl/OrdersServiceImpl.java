@@ -15,7 +15,6 @@ import com.foodorderingapp.utils.FoodResUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +110,7 @@ public class OrdersServiceImpl implements OrdersService {
                 orderListDto.setFirstName(orderListMapperDto.getFirstName());
                 orderListDto.setMiddleName(orderListMapperDto.getMiddleName());
                 orderListDto.setLastName(orderListMapperDto.getLastName());
+                orderListDto.setConfirm(orderListMapperDto.getConfirm());
                 orderListDto.setOrderedDate(orderListMapperDto.getOrderedDate());
                 List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrderId(orderListMapperDto.getOrderId());
                 for (OrderDetail orderDetail : orderDetailList) {
@@ -138,6 +138,7 @@ public class OrdersServiceImpl implements OrdersService {
                 orderListDto.setFirstName(orderListMapperDto.getFirstName());
                 orderListDto.setMiddleName(orderListMapperDto.getMiddleName());
                 orderListDto.setLastName(orderListMapperDto.getLastName());
+                orderListDto.setConfirm(orderListMapperDto.getConfirm());
                 orderListDto.setOrderedDate(orderListMapperDto.getOrderedDate());
                 List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrderId(orderListMapperDto.getOrderId());
                 for (OrderDetail orderDetail : orderDetailList) {
@@ -164,6 +165,7 @@ public class OrdersServiceImpl implements OrdersService {
                 userListDto.setUserId(userListMapperDto.getUserId());
                 userListDto.setOrderId(userListMapperDto.getOrderId());
                 userListDto.setOrderedDate(userListMapperDto.getOrderedDate());
+                userListDto.setConfirm(userListMapperDto.getConfirm());
                 List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrderId(userListMapperDto.getOrderId());
 
                 for (OrderDetail orderDetail : orderDetailList) {
@@ -181,7 +183,7 @@ public class OrdersServiceImpl implements OrdersService {
 
     public List<UserListDto> getUsersByUserForToday(int userId) {
         try {
-            List<UserListMapperDto> userListMapperDtos = userService.getUsersByUserForAMonth(userId);
+            List<UserListMapperDto> userListMapperDtos = userService.getByUserForToday(userId);
             List<UserListDto> userListDtoList = new ArrayList<>();
 
             for (UserListMapperDto userListMapperDto : userListMapperDtos) {
@@ -190,6 +192,7 @@ public class OrdersServiceImpl implements OrdersService {
                 userListDto.setUserId(userListMapperDto.getUserId());
                 userListDto.setOrderId(userListMapperDto.getOrderId());
                 userListDto.setOrderedDate(userListMapperDto.getOrderedDate());
+                userListDto.setConfirm(userListMapperDto.getConfirm());
                 List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrderId(userListMapperDto.getOrderId());
 
                 for (OrderDetail orderDetail : orderDetailList) {

@@ -106,15 +106,13 @@ public class UserServiceImpl implements UserService {
         return  userDAO.getUsersByUserForAMonth(userId);
     }
 
-/*
     @Override
-    public List<UserLogMapperDto> getByUserForAMonth(PageModel pageModel,int userId) {
-       return userDAO.getByUserForCurrentMonth(pageModel,userId);
-    }
-*/
-
-    @Override
-    public List<UserLogMapperDto> getByUserForToday(int userId) {
+    public List<UserListMapperDto> getByUserForToday(int userId) {
         return userDAO.getByUserForToday(userId);
     }
-}
+
+ /*   @Override
+    public Double getLastMonthBalanceByUserId(int userId) {
+        return userDAO.getLastMonthBalanceByUserId(userId);
+    }
+*/}

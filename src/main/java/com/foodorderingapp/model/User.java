@@ -17,7 +17,8 @@ import java.util.Date;
                         columns = {
                                 @ColumnResult(name="order_id", type=Integer.class),
                                 @ColumnResult(name="user_id", type=Integer.class),
-                                @ColumnResult(name="ordered_date",type=Date.class)
+                                @ColumnResult(name="ordered_date",type=Date.class),
+                                @ColumnResult(name="confirm",type=Boolean.class)
                         })})
 
 public class User {

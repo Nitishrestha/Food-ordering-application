@@ -1,7 +1,9 @@
 package com.foodorderingapp.service;
 
-import com.foodorderingapp.commons.PageModel;
-import com.foodorderingapp.dto.*;
+import com.foodorderingapp.dto.LoginDto;
+import com.foodorderingapp.dto.UserDto;
+import com.foodorderingapp.dto.UserListMapperDto;
+import com.foodorderingapp.dto.UserLogMapperDto;
 import com.foodorderingapp.model.User;
 import com.foodorderingapp.responsedto.UserDtoResponse;
 
@@ -14,6 +16,6 @@ public interface UserService {
     User getUser(int userId);
     User update(User user);
     List<UserListMapperDto> getUsersByUserForAMonth(int userId);
-//    List<UserLogMapperDto> getByUserForAMonth(PageModel pageModel,int userId);
-    List<UserLogMapperDto> getByUserForToday(int userId);
+    List<UserListMapperDto> getByUserForToday(int userId);
+//    Double getLastMonthBalanceByUserId(int userId);
 }

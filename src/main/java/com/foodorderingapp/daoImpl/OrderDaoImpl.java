@@ -47,7 +47,7 @@ public class OrderDaoImpl implements OrderDAO{
         Query qry=sessionFactory
                 .getCurrentSession()
                 .createNativeQuery("select tbl_orders.order_id,tbl_orders.ordered_date ,\n" +
-                        "tbl_orders.user_id ,tbl_users.first_name,tbl_users.middle_name,tbl_users.last_name\n" +
+                        "tbl_orders.user_id ,tbl_users.first_name,tbl_orders.confirm,tbl_users.middle_name,tbl_users.last_name\n" +
                         "from tbl_orders INNER JOIN tbl_users ON tbl_orders.user_id=tbl_users.user_id WHERE YEAR(CURRENT_TIMESTAMP) = YEAR(ordered_date)\n" +
                         "AND MONTH(CURRENT_TIMESTAMP) = MONTH(ordered_date)","OrderMapping");
         return qry.getResultList();
@@ -58,7 +58,8 @@ public class OrderDaoImpl implements OrderDAO{
         Query qry = sessionFactory
                 .getCurrentSession()
                 .createNativeQuery("SELECT   tbl_orders.order_id,tbl_orders.ordered_date ,\n" +
-                        "tbl_orders.user_id ,tbl_users.first_name,tbl_users.middle_name,tbl_users.last_name" +
+                        "tbl_orders.user_id ,tbl_users.first_name,tbl_orders.confirm," +
+                        "tbl_users.middle_name,tbl_users.last_name" +
                         " FROM tbl_orders  INNER JOIN tbl_users ON tbl_orders.user_id=tbl_users.user_id\n" +
                         "WHERE CAST(tbl_orders.ordered_date AS DATE)=CURRENT_DATE\n" +
                         "AND tbl_users.user_role=\"user\" ORDER BY tbl_orders.ordered_date DESC","OrderMapping");

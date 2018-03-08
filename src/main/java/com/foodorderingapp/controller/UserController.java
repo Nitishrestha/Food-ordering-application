@@ -1,6 +1,5 @@
 package com.foodorderingapp.controller;
 
-import com.foodorderingapp.commons.WebUrlConstant;
 import com.foodorderingapp.dto.LoginDto;
 import com.foodorderingapp.dto.UserDto;
 import com.foodorderingapp.model.User;
@@ -10,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import static com.foodorderingapp.commons.WebUrlConstant.User.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.foodorderingapp.commons.WebUrlConstant.User.*;
 
 @RestController
 @RequestMapping(USER)
@@ -46,8 +46,14 @@ public class UserController {
     }
 
     @GetMapping(GET_USER_BY_ID)
-    public ResponseEntity<User> getUser(@PathVariable("userId") int userId) {
+    public ResponseEntity<User> getUser(@PathVariable int userId) {
         User user = userService.getUser(userId);
         return new ResponseEntity(user, HttpStatus.OK);
     }
+
+   /* @GetMapping(GET_USER_PREVIOUS_MONTH_BALANCE)
+    public ResponseEntity<Double> getUserPreviousBalance(@PathVariable int userId) {
+       Double balance= userService.getLastMonthBalanceByUserId(userId);
+        return new ResponseEntity(balance, HttpStatus.OK);
+    }*/
 }

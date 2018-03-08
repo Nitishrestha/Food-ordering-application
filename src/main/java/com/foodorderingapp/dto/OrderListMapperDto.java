@@ -10,15 +10,25 @@ public class OrderListMapperDto {
     private String middleName;
     private String lastName;
     private Date orderedDate;
+    private Boolean confirm;
 
-    public OrderListMapperDto(int orderId, int userId, String firstName,
-                              String middleName, String lastName, Date orderedDate) {
+    public OrderListMapperDto(int orderId, int userId, String firstName, String middleName,
+                              String lastName, Date orderedDate, Boolean confirm) {
         this.orderId = orderId;
         this.userId = userId;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.orderedDate = orderedDate;
+        this.confirm = confirm;
+    }
+
+    public Boolean getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(Boolean confirm) {
+        this.confirm = confirm;
     }
 
     public String getFirstName() {

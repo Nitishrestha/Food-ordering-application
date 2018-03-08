@@ -8,7 +8,16 @@ public class UserListDto {
     private int orderId;
     private int userId;
     private Date orderedDate;
+    private Boolean confirm;
     private List<FoodRes> foodResList;
+
+    public Boolean getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(Boolean confirm) {
+        this.confirm = confirm;
+    }
 
     public int getUserId() {
         return userId;

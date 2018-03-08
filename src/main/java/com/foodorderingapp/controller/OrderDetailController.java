@@ -17,12 +17,10 @@ public class OrderDetailController {
 
 
     private OrderDetailService orderDetailService;
-    private  OrdersService ordersService;
 
     @Autowired
-    public OrderDetailController(OrderDetailService orderDetailService,OrdersService ordersService){
+    public OrderDetailController(OrderDetailService orderDetailService){
         this.orderDetailService=orderDetailService;
-        this.ordersService=ordersService;
     }
 
     @GetMapping
@@ -32,10 +30,4 @@ public class OrderDetailController {
         return new ResponseEntity<>(orderDetailDtoList, HttpStatus.OK);
     }
 
-  /*  @GetMapping(GET_ORDER_DETAIL_BY_USER_ID)
-    public ResponseEntity<List<OrderDetail>> getOrderDetailByUserId(@PathVariable("userId") int userId)
-    {
-        List<OrderDetail> orderDetailList=orderDetailService.getOrderDetailByUserId(userId);
-        return new ResponseEntity<>(orderDetailList, HttpStatus.OK);
-    }*/
 }

@@ -16,13 +16,11 @@ public class WebUrlConstant {
         String USER="/user";
         String VERIFY_USER="/verify";
         String GET_USER_BY_ID="/{userId}";
-
+        String GET_USER_PREVIOUS_MONTH_BALANCE="/{userId}/balance/lastMonth";
     }
 
     public interface OrderDetail{
         String ORDER_DETAIL="/orderDetail";
-        String GET_ORDER_DETAIL_BY_USER_ID="/{userId}";
-
     }
 
     public interface Food{
