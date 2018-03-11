@@ -45,7 +45,7 @@ public class User {
     @Column(name="user_role")
     private String userRole="user";
     @Column(name="balance")
-    private double balance = 1200;
+    private double balance;
 
     public User(String firstName, String middleName, String lastName, String userPassword,
                 String email, String contactNo, String address, String userRole, double balance) {
@@ -63,8 +63,6 @@ public class User {
     public User(){
 
     }
-
-
 
     public int getUserId() {
         return userId;

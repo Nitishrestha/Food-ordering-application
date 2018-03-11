@@ -1,8 +1,9 @@
 package com.foodorderingapp.serviceImpl;
 
-import com.foodorderingapp.commons.PageModel;
 import com.foodorderingapp.dao.UserDAO;
-import com.foodorderingapp.dto.*;
+import com.foodorderingapp.dto.LoginDto;
+import com.foodorderingapp.dto.UserDto;
+import com.foodorderingapp.dto.UserListMapperDto;
 import com.foodorderingapp.exception.DataNotFoundException;
 import com.foodorderingapp.exception.UserConflictException;
 import com.foodorderingapp.model.User;
@@ -111,8 +112,7 @@ public class UserServiceImpl implements UserService {
         return userDAO.getByUserForToday(userId);
     }
 
- /*   @Override
-    public Double getLastMonthBalanceByUserId(int userId) {
-        return userDAO.getLastMonthBalanceByUserId(userId);
+    public void updateBalance(){
+        userDAO.updateBalance();
     }
-*/}
+ }

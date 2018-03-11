@@ -17,5 +17,6 @@ public interface UserService {
     User update(User user);
     List<UserListMapperDto> getUsersByUserForAMonth(int userId);
     List<UserListMapperDto> getByUserForToday(int userId);
+    void updateBalance();
 //    Double getLastMonthBalanceByUserId(int userId);
 }

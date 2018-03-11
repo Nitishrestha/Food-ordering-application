@@ -51,9 +51,9 @@ public class UserController {
         return new ResponseEntity(user, HttpStatus.OK);
     }
 
-   /* @GetMapping(GET_USER_PREVIOUS_MONTH_BALANCE)
-    public ResponseEntity<Double> getUserPreviousBalance(@PathVariable int userId) {
-       Double balance= userService.getLastMonthBalanceByUserId(userId);
-        return new ResponseEntity(balance, HttpStatus.OK);
-    }*/
+    @GetMapping(value = "/balance")
+    public ResponseEntity<String> getUserPreviousBalance() {
+        userService.updateBalance();
+        return new ResponseEntity("balance updated", HttpStatus.OK);
+    }
 }

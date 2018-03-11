@@ -78,4 +78,19 @@ public class OrderListMapperDto {
     public void setOrderedDate(Date orderedDate) {
         this.orderedDate = orderedDate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderListMapperDto that = (OrderListMapperDto) o;
+
+        return orderId == that.orderId;
+    }
+
+    @Override
+    public int hashCode() {
+        return orderId;
+    }
 }

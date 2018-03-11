@@ -125,7 +125,7 @@ public class OrderServiceTest {
     public void add_whenGetFoodByResName_thenResultNull() {
         User user = new User();
         OrderDto orderDto = new OrderDto();
-        FoodQuantity foodQuantity = new FoodQuantity("momo", 100, "kfc", 1);
+        FoodQuantityUtils foodQuantity = new FoodQuantityUtils("momo", 100, "kfc", 1);
         orderDto.setFoodList(Arrays.asList(foodQuantity));
         when(userService.getUser(orderDto.getUserId())).thenReturn(user);
         expectedException.expect(DataNotFoundException.class);
@@ -138,7 +138,7 @@ public class OrderServiceTest {
         User user = new User();
         OrderDto orderDto = new OrderDto();
         Food food = new Food(1, "momo", 200, new Restaurant());
-        FoodQuantity foodQuantity = new FoodQuantity("momo", 300, "kfc", 1);
+        FoodQuantityUtils foodQuantity = new FoodQuantityUtils("momo", 300, "kfc", 1);
         orderDto.setFoodList(Arrays.asList(foodQuantity));
         when(userService.getUser(orderDto.getUserId())).thenReturn(user);
         when(foodService.getFoodByResName(foodQuantity.getRestaurantName(), foodQuantity.getFoodName()))
@@ -153,7 +153,7 @@ public class OrderServiceTest {
         User user = new User();
         OrderDto orderDto = new OrderDto();
         Food food = new Food(1, "momo", 200, new Restaurant());
-        FoodQuantity foodQuantity = new FoodQuantity("momo", 200, "kfc", -1);
+        FoodQuantityUtils foodQuantity = new FoodQuantityUtils("momo", 200, "kfc", -1);
         orderDto.setFoodList(Arrays.asList(foodQuantity));
         when(userService.getUser(orderDto.getUserId())).thenReturn(user);
         when(foodService.getFoodByResName(foodQuantity.getRestaurantName(), foodQuantity.getFoodName()))

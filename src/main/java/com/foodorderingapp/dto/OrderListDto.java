@@ -77,4 +77,6 @@ public class OrderListDto {
     public void setOrderedDate(Date orderedDate) {
         this.orderedDate = orderedDate;
     }
+
+
 }

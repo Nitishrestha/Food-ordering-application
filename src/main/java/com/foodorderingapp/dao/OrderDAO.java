@@ -12,5 +12,4 @@ public interface OrderDAO {
      List<OrderListMapperDto> getOrderForAdminForMonth();
      List<OrderListMapperDto> getOrderLogForAdminForToday();
      Orders getOrderByUserWithConfirm(int userId);
-     Long countOrder();
 }

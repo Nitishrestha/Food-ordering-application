@@ -14,6 +14,6 @@ public interface UserDAO {
     Boolean update(User user);
     List<UserListMapperDto> getUsersByUserForAMonth(int userId);
     List<UserListMapperDto> getByUserForToday(int userId);
-//    Double getLastMonthBalanceByUserId(int userId);
+     void updateBalance();
 
 }

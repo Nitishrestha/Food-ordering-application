@@ -61,6 +61,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.13.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-test:4.3.13.RELEASE" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.44" />
+          <element id="library" level="project" name="Maven: org.springframework:gs-scheduling-tasks:unknown" />
           <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.3.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.13.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.3.13.RELEASE" />

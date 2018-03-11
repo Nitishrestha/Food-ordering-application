@@ -2,9 +2,7 @@ package com.foodorderingapp.daoImpl;
 
 import com.foodorderingapp.dao.UserDAO;
 import com.foodorderingapp.dto.UserListMapperDto;
-import com.foodorderingapp.dto.UserLogMapperDto;
 import com.foodorderingapp.exception.DataNotFoundException;
-import com.foodorderingapp.model.Orders;
 import com.foodorderingapp.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -90,16 +88,13 @@ public class UserDaoImpl implements UserDAO {
         return qry.getResultList();
     }
 
-  /*  @Override
-    public Double getLastMonthBalanceByUserId(int userId) {
-        Query query=sessionFactory
+    public void updateBalance() {
+        double balance=1500.00;
+        Query qry =sessionFactory
                 .getCurrentSession()
-                .createNativeQuery("SELECT tbl_orders.user_id ,tbl_users.balance FROM tbl_orders " +
-                        "INNER JOIN tbl_users ON tbl_users.user_id=tbl_orders.user_id WHERE tbl_users.user_id=?\n" +
-                        "AND YEAR(ordered_date) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)\n" +
-                        "AND MONTH(ordered_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)")
-                .setParameter(1,userId);
-
+                .createQuery("update User  set balance=:balance")
+        .setParameter("balance",balance);
+        qry.executeUpdate();
     }
-*/}
+}
 

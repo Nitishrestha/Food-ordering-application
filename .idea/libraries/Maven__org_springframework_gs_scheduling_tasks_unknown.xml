@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework:gs-scheduling-tasks:unknown">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/gs-scheduling-tasks/unknown/gs-scheduling-tasks-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/gs-scheduling-tasks/unknown/gs-scheduling-tasks-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/gs-scheduling-tasks/unknown/gs-scheduling-tasks-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
